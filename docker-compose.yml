@@ -17,14 +17,10 @@ services:
     image: influxdb
     container_name: influxdb
     restart: always
-    environment:
-      - INFLUXDB_ADMIN_ENABLED=true
-      - INFLUXDB_USER=influx
-      - INFLUXDB_USER_PASSWORD=influx
-      - INFLUXDB_DB=influx
+    env_file: postgres.env
     ports:
-     - "8083"
-     - "8086"
+     - "0803:8083"
+     - "8086:8086"
     volumes:
      - influxdb-data:/var/lib/influxdb
  
@@ -48,15 +44,15 @@ services:
     links:
       - influxdb
 
-  telegraf:
-    container_name: telegraf
-    image: telegraf
-    volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf
-    restart: always
-    links:
-      - influxdb
-      - mosquitto
+  # telegraf:
+  #   container_name: telegraf
+  #   image: telegraf
+  #   volumes:
+  #     - ./telegraf.conf:/etc/telegraf/telegraf.conf
+  #   restart: always
+  #   links:
+  #     - influxdb
+  #     - mosquitto
  
 volumes:
   grafana-db:
